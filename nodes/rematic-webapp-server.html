@@ -1,0 +1,39 @@
+<script type="text/javascript">
+    RED.nodes.registerType('rematic-webapp-server', {
+        category: 'config',
+        defaults: {
+            port: { value: '5000', required: true, validate: RED.validators.number() },
+            key: { value: '', required: false },
+            cert: { value: '', required: false },
+            chain: { value: '', required: false }
+        },
+        label: function() {
+            return 'Port ' + this.port;
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="rematic-webapp-server">
+    <div class="form-row">
+    	<label for="node-config-input-port"><i class="icon-globe"></i> Port</label>
+    	<input type="text" id="node-config-input-port">
+    </div>
+    <h3>SSL-Verschlüsselung</h3>
+    <div class="form-row">
+    	<label for="node-config-input-key"><i class="icon-globe"></i> Privater Schlüssel</label>
+    	<textarea id="node-config-input-key"></textarea>
+    </div>
+    <div class="form-row">
+    	<label for="node-config-input-cert"><i class="icon-globe"></i> Zertifikat</label>
+    	<textarea id="node-config-input-cert"></textarea>
+    </div>
+    <div class="form-row">
+    	<label for="node-config-input-chain"><i class="icon-globe"></i> Zertifikatskette (Chain)</label>
+    	<textarea id="node-config-input-chain"></textarea>
+    </div>
+    <div class="form-tips">
+    	<p>Anstatt für die App und dessen Backend den NodeRED-Webserver zu verwenden, ist es auch möglich diese über einen separaten Port auszuliefern.</p>
+    	<p>Die Web-App kann so beispielsweise mit DynDNS und Portweiterleitung von außen aufgerufen werden, ohne dass NodeRED nach außen sichtbar wird. Aus Sicherheitsgründen bitte ein starkes Passwort und wenn möglich SSL-Verschlüsselung verwenden!</p>
+    	<strong>Änderungen erfordern einen Neustart von NodeRED.</strong>
+    </div>
+</script>

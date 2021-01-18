@@ -1,0 +1,62 @@
+// Globals
+$body-font-family: 'Avenir LT Std', serif;
+$border-radius-root: 6px;
+$font-size-root: 16px;
+
+// Variables must come before the import
+$btn-letter-spacing: 0;
+$btn-font-weight: 400;
+$list-item-title-font-size: 0.929rem;
+$list-item-dense-title-font-size: 0.929rem;
+$list-item-dense-title-font-weight: initial;
+$fab-icon-sizes: (
+  'small': 20
+);
+$btn-sizes: (
+  'default': 41,
+  'large': 54
+);
+
+$headings: (
+  'h1': (
+    'size': 3.3125rem,
+    'line-height': 1.15em
+  ),
+  'h2': (
+    'size': 2.25rem,
+    'line-height': 1.5em
+  )
+);
+
+$spacer: 1rem !default;
+$spacers: () !default;
+$spacers: (
+  0: 0,
+  1: ($spacer * .25),
+  2: ($spacer * .5),
+  3: $spacer,
+  4: ($spacer * 1.5),
+  5: ($spacer * 3),
+  6: ($spacer * 4),
+  7: ($spacer * 5),
+  8: ($spacer * 10)
+);
+
+$container-max-widths: (
+  'md': 900px,
+  'lg': 1185px,
+  'xl': 1185px
+);
+
+$border-radius-root: 0.15rem;
+$rounded: (
+  0: 0,
+  'sm': $border-radius-root / 2,
+  null: $border-radius-root,
+  'lg': $border-radius-root * 2,
+  'xl': $border-radius-root * 6,
+  'pill': 9999px,
+  'circle': 50%
+);
+
+$slider-thumb-size: 20px;

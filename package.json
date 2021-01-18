@@ -1,0 +1,47 @@
+{
+  "name": "rematic-webapp",
+  "version": "0.4.0",
+  "description": "rematic Web App - REmote Web Frontend for HomeMATIC",
+  "main": "none",
+  "scripts": {
+    "staging": "cd webapp && npm run staging && cd..",
+    "build": "cd webapp && npm run build && cd.. && npm pack",
+    "pack": "npm pack"
+  },
+  "author": "Christian Rendl <10274479+christianrr@users.noreply.github.com>",
+  "license": "Apache-2.0",
+  "node-red": {
+    "nodes": {
+      "rematic-webapp-server": "nodes/rematic-webapp-server.js",
+      "rematic-webapp": "nodes/rematic-webapp.js",
+      "rematic-uielement": "nodes/rematic-uielement.js",
+      "rematic-uigroup": "nodes/rematic-uigroup.js",
+      "rematic-uipage": "nodes/rematic-uipage.js"
+    }
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "https": "^1.0.0",
+    "serve-static": "1.13.2",
+    "socket.io": "2.2.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "xo": "^0.24.0"
+  },
+  "xo": {
+    "space": 4,
+    "globals": [
+      "window",
+      "document",
+      "location",
+      "customElements"
+    ],
+    "rules": {
+      "import/extensions": 0,
+      "import/no-unassigned-import": 0,
+      "no-unused-vars": 0
+    }
+  }
+}

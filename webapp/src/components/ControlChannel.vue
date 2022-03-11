@@ -33,6 +33,14 @@
             :hasTemperature="false"
         />
         <ControlChannelRGBWDimmer
+            v-else-if="control.sourceType && control.sourceType.indexOf('RGB-DIM') >= 0"
+            :control="control"
+            :channels="channels"
+            :forceStatus="forceStatus"
+            :hasColor="true"
+            :hasTemperature="false"
+        />
+        <ControlChannelRGBWDimmer
             v-else-if="control.sourceType && control.sourceType.indexOf('RGBW-DIM') >= 0"
             :control="control"
             :channels="channels"

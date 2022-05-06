@@ -1,15 +1,20 @@
 <template>
     <v-app>
-        <v-app-bar app color="primary" height="100" dark flat fixed>
-            <v-app-bar-nav-icon @click="drawer = true" color="white" class="ma-2"
-                ><v-img :src="publicPath + 'assets/MainMenu.png'" width="30" height="30" contain
-            /></v-app-bar-nav-icon>
-            <v-img :src="publicPath + 'assets/Logo.png'" width="50" height="50" contain class="my-4" />
+        <v-app-bar app color="primary" :height="isPortraitSm ? 65 : 80" dark flat fixed>
+            <v-app-bar-nav-icon @click="drawer = true" color="white" class="ma-2">
+                <v-img :src="publicPath + 'assets/MainMenu.png'" width="30" height="30" contain/>
+            </v-app-bar-nav-icon>
+            <v-img :src="publicPath + 'assets/Logo.png'" width="50" height="50" contain class="my-4" v-if="!isPortraitSm" />
+            <v-tabs centered slider-color="accent" v-if="isPortraitSm">
+                    <v-tab to="/">Dashboard</v-tab>
+                    <v-tab to="/rooms">Räume</v-tab>
+                    <v-tab to="/categories">Kategorien</v-tab>
+                </v-tabs>
             <v-btn icon class="ma-2" to="/settings">
                 <v-icon>fas fa-sliders-h</v-icon>
             </v-btn>
 
-            <template v-slot:extension>
+            <template v-slot:extension v-if="!isPortraitSm">
                 <v-tabs centered slider-color="accent">
                     <v-tab to="/">Dashboard</v-tab>
                     <v-tab to="/rooms">Räume</v-tab>
@@ -19,6 +24,7 @@
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" color="primary" dark class="drawer" temporary app fixed>
+            <v-img :src="publicPath + 'assets/Logo.png'" width="50" height="50" contain class="ma-4" />
             <v-list nav class="ma-2">
                 <v-list-item-group>
                     <v-list-item to="/">
@@ -61,7 +67,10 @@ export default {
         handledConnect: false
     }),
     computed: {
-        ...mapGetters(['config'])
+        ...mapGetters(['config']),
+        isPortraitSm() {
+            return this.$vuetify.breakpoint.mdAndDown && this.$vuetify.breakpoint.width > this.$vuetify.breakpoint.height;
+        }
     },
     sockets: {
         async connect() {
@@ -269,5 +278,23 @@ body {
 .cursor-pointer {
     cursor: pointer;
 }
+
+.prominent-app-bar {
+    display: block !important;
+}
+
+.dense-app-bar {
+    display: none !important;
+}
+
+@media (max-width: 1024px) and (orientation: landscape) {
+.prominent-app-bar {
+    display: none !important;
+}
+
+.dense-app-bar {
+    display: block !important;
+}
+ }
 
 </style>

@@ -4,7 +4,10 @@
             <v-col class="ma-0 pa-0" cols="6" md="3" lg="2" @click="onServerTileClicked">
                 <DeviceTile title="Zentrale" icon="assets/Server.png" :index="0">
                     <div class="controls d-flex flex-column justify-center">
-                        <p class="accent--text pa-0 ma-0">{{ $socket.connected ? 'verbunden' : 'getrennt' }}</p>
+                        <div class="d-flex flex-row ma-0">
+                            <p class="accent--text pa-0 ma-0">{{ $socket.connected ? 'verbunden' : 'getrennt' }}</p>
+                            <Control :control="{ source: 'DATA:HTML|Zentrale Status', sourceKey: 'Zentrale Status', sourceType: 'HTML'}" :forceStatus="true" />
+                        </div>
                     </div>
                 </DeviceTile>
             </v-col>
@@ -26,11 +29,13 @@
 import { mapGetters, mapActions } from 'vuex';
 import router from '@/router';
 import DeviceTile from '@/components/DeviceTile.vue';
+import Control from '@/components/Control.vue';
 
 export default {
     name: 'Dashboard',
     components: {
-        DeviceTile
+        DeviceTile,
+        Control
     },
     computed: {
         ...mapGetters(['isConnected', 'dashboard', 'categories'])
@@ -38,6 +43,10 @@ export default {
     async created() {
         //await this.getDashboard();
     },
+    data: () => ({
+        publicPath: process.env.BASE_URL,
+        isOuterLeft: false
+    }),
     methods: {
         ...mapActions(['getDashboard', 'changeState']),
         update(control) {

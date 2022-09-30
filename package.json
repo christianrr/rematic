@@ -1,6 +1,6 @@
 {
   "name": "rematic-webapp",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "rematic Web App - REmote Web Frontend for HomeMATIC",
   "main": "none",
   "scripts": {

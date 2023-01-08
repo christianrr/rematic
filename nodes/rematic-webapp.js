@@ -26,12 +26,12 @@ module.exports = function(RED) {
             });
 
             conn.on('cmd', async cmd => {
-                await this.handleCommand(cmd);
+                await this.handleCommand(cmd, config);
             });
 
             conn.on('cmds', async cmds => {
                 for (let cmd of cmds) {
-                    await this.handleCommand(cmd);
+                    await this.handleCommand(cmd, config);
                 }
             });
 
@@ -93,7 +93,7 @@ module.exports = function(RED) {
           })
         }
 
-        async handleCommand(cmd) {
+        async handleCommand(cmd, config) {
             if (cmd.delay) await this.delay(cmd.delay);
             if (cmd.type === 'hm') {
                 switch (cmd.method) {

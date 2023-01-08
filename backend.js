@@ -117,6 +117,10 @@ function init(RED) {
         socket.on('cmd', data => {
             conn.emit('cmd', data);
         });
+
+        socket.on('cmds', data => {
+            conn.emit('cmds', data);
+        });
     });
 
     io.on('connect_error', error => {

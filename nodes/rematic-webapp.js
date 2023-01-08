@@ -25,27 +25,13 @@ module.exports = function(RED) {
                 conn.emit('program', msg);
             });
 
-            conn.on('cmd', msg => {
-                if (msg.type === 'hm') {
-                    switch (msg.method) {
-                        case 'setValue':
-                            this.ccu.setValue(msg.iface, msg.address, msg.datapoint, msg.value);
-                            break;
-                        case 'programExecute':
-                            this.ccu.programExecute(msg.name);
-                            break;
-                        case 'setVariable':
-                            this.ccu.setVariable(msg.name, msg.value);
-                            break;
-                        default:
-                    }
-                } else if (msg.type === 'msg') {
-                    if(msg.appName === config.name) {
-                        var newMsg = { topic: msg.appName, payload: msg.value };
-                        if (msg.value === 'WebApp connected') {
-                            this.send([newMsg, null]);
-                        } else this.send([null, newMsg]);
-                    }
+            conn.on('cmd', async cmd => {
+                await this.handleCommand(cmd);
+            });
+
+            conn.on('cmds', async cmds => {
+                for (let cmd of cmds) {
+                    await this.handleCommand(cmd);
                 }
             });
 
@@ -97,6 +83,39 @@ module.exports = function(RED) {
             this.ccu.unsubscribeSysvar(this.idSysvarSubscription);
             this.ccu.unsubscribeProgram(this.idProgramSubscription);
             done();
+        }
+
+        async delay(ms) {
+            return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, ms);
+          })
+        }
+
+        async handleCommand(cmd) {
+            if (cmd.delay) await this.delay(cmd.delay);
+            if (cmd.type === 'hm') {
+                switch (cmd.method) {
+                    case 'setValue':
+                        this.ccu.setValue(cmd.iface, cmd.address, cmd.datapoint, cmd.value);
+                        break;
+                    case 'programExecute':
+                        this.ccu.programExecute(cmd.name);
+                        break;
+                    case 'setVariable':
+                        this.ccu.setVariable(cmd.name, cmd.value);
+                        break;
+                    default:
+                }
+            } else if (cmd.type === 'msg') {
+                if(cmd.appName === config.name) {
+                    var newMsg = { topic: cmd.appName, payload: cmd.value };
+                    if (cmd.value === 'WebApp connected') {
+                        this.send([newMsg, null]);
+                    } else this.send([null, newMsg]);
+                }
+            }
         }
     }
 

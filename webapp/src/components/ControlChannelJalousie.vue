@@ -11,7 +11,7 @@
                 color="grey lighten-3"
                 class="ml-1"
                 @click.stop="slatsDown"
-                v-if="control.sourceType === 'JALOUSIE'"
+                v-if="control.sourceType === 'JALOUSIE' || control.sourceType === 'BLIND-VIRTUAL-RECEIVER'"
             >
                 <v-icon color="grey darken-1">fas fa-sort-amount-down</v-icon></v-btn
             >
@@ -32,7 +32,7 @@
                 color="grey lighten-3"
                 class="ml-1"
                 @click.stop="slatsUp"
-                v-if="control.sourceType === 'JALOUSIE'"
+                v-if="control.sourceType === 'JALOUSIE' || control.sourceType === 'BLIND-VIRTUAL-RECEIVER'"
             >
                 <v-icon color="grey darken-1">fas fa-sort-amount-up</v-icon></v-btn
             >
@@ -55,19 +55,19 @@ export default {
         status() {
             let value = 100 - this.channels['LEVEL'].value * 100;
             if (value === 0) return 'offen';
-            if (value === 100) return 'geschl.';
+            if (value === 100) return 'zu';
             return value.toFixed(0) + '%';
         }
     },
     data: () => ({}),
     methods: {
-        ...mapActions(['setChannel']),
+        ...mapActions(['setChannel', 'setChannels']),
         handled() {},
         setLevel(level) {
             this.setChannel({ channel: this.channels['LEVEL'], value: level });
         },
         setSlatsLevel(level) {
-            this.setChannel({ channel: this.channels['LEVEL_SLATS'], value: level });
+            this.setChannels([{ channel: this.channels['LEVEL'], value: level }, { channel: this.channels['STOP'], value: true, delay: 200 }]);
         },
         stop() {
             this.setChannel({ channel: this.channels['STOP'], value: true });
@@ -79,16 +79,10 @@ export default {
             this.setLevel(1);
         },
         slatsDown() {
-            var slatsLevel = this.channels['LEVEL_SLATS'].value;
-            slatsLevel -= 0.3;
-            if (slatsLevel < 0) slatsLevel = 0;
-            this.setSlatsLevel(slatsLevel);
+            this.setSlatsLevel(0);
         },
         slatsUp() {
-            var slatsLevel = this.channels['LEVEL_SLATS'].value;
-            slatsLevel += 0.3;
-            if (slatsLevel > 1) slatsLevel = 1;
-            this.setSlatsLevel(slatsLevel);
+            this.setSlatsLevel(1);
         }
     }
 };

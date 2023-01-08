@@ -65,6 +65,31 @@ const actions = {
             payload.channel.locked = false;
         }, 1000);
     },
+    setChannels({ commit }, payload) {
+        // console.log('set channel:' + JSON.stringify(payload));
+        const cmds = payload.map(cmd => {
+            return {
+                type: 'hm',
+                method: 'setValue',
+                iface: cmd.channel.iface,
+                address: cmd.channel.channel,
+                datapoint: cmd.channel.datapoint,
+                value: cmd.value,
+                delay: cmd.delay
+            };
+        });
+        console.log(cmds);
+        this._vm.$socket.client.emit('cmds', cmds);
+
+        for(let cmd of payload) {
+            commit('SET_EVENT', cmd.channel);
+
+            cmd.channel.locked = true;
+            setTimeout(() => {
+                cmd.channel.locked = false;
+            }, 1000);
+        }
+    },
     setProgram({ commit }, payload) {
         // console.log('launch program:' + JSON.stringify(payload));
         this._vm.$socket.client.emit('cmd', { type: 'hm', method: 'programExecute', name: payload.program.name });
@@ -116,7 +141,7 @@ const mutations = {
         state.sysvars = sysvar;
     },
     [types.SET_EVENT](state, event) {
-        // console.log('event ' + event.datapointName + ' updated');
+         console.log('event ' + event.datapointName + ' updated');
         var values = state.values;
         var existing = values[event.datapointName];
         if (existing && existing.locked) return;

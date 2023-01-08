@@ -1,7 +1,7 @@
 <template>
   <div>
     <ControlChannelJalousie
-      v-if="control.sourceType === 'JALOUSIE' || control.sourceType === 'BLIND'"
+      v-if="control.sourceType === 'JALOUSIE' || control.sourceType === 'BLIND' || control.sourceType === 'BLIND-VIRTUAL-RECEIVER' || control.sourceType === 'BLIND-TRANSMITTER'"
       :control="control"
       :channels="channels"
       :forceStatus="forceStatus"

@@ -26,7 +26,7 @@ const actions = {
 
         let url;
         if (process.env.NODE_ENV === 'development') {
-            url = 'http://192.168.1.9';
+            url = 'ws://192.168.1.9';
             path = '/addons/red/rematic/backend';
         }
 

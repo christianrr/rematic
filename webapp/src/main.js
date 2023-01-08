@@ -11,7 +11,8 @@ import io from 'socket.io-client';
 Vue.config.productionTip = false;
 
 const socket = io({
-	autoConnect: false
+	autoConnect: false, 
+    transports: ["websocket"] 
 });
 
 Vue.use(VueSocketIOExt, socket, { store });

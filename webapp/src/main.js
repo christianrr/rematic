@@ -12,7 +12,7 @@ Vue.config.productionTip = false;
 
 const socket = io({
 	autoConnect: false, 
-    transports: ["websocket"] 
+    transports: ['websocket'] 
 });
 
 Vue.use(VueSocketIOExt, socket, { store });

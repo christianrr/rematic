@@ -72,20 +72,24 @@ export default {
                     labels: data.labels
                 }
             }
-            this.datacollection.datasets = [];
-            for (var i = 0; i < data.data.length; i++) {
-                this.datacollection.datasets.push({
-                    label: data.series[i],
-                    borderWidth: 2,
-                    pointRadius: 1,
-                    borderColor: data.seriesColors && data.seriesColors[i] ? data.seriesColors[i] : '#f87979',
-                    pointBackgroundColor: data.seriesColors && data.seriesColors[i] ? data.seriesColors[i] : '#f87979',
-                    backgroundColor:
-                        data.chartType === 'bar' && data.seriesColors && data.seriesColors[i]
-                            ? data.seriesColors[i]
-                            : undefined,
-                    data: data.data[i]
-                });
+            if(!data.datasets) {
+                this.datacollection.datasets = [];
+                for (var i = 0; i < data.data.length; i++) {
+                    this.datacollection.datasets.push({
+                        label: data.series[i],
+                        borderWidth: 2,
+                        pointRadius: 1,
+                        borderColor: data.seriesColors && data.seriesColors[i] ? data.seriesColors[i] : '#f87979',
+                        pointBackgroundColor: data.seriesColors && data.seriesColors[i] ? data.seriesColors[i] : '#f87979',
+                        backgroundColor:
+                            data.chartType === 'bar' && data.seriesColors && data.seriesColors[i]
+                                ? data.seriesColors[i]
+                                : undefined,
+                        data: data.data[i]
+                    });
+                }
+            } else {
+                this.datacollection.datasets = data.datasets;
             }
         }
     }

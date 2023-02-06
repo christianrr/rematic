@@ -1,11 +1,11 @@
 <template>
     <v-app>
-        <v-app-bar app color="primary" :height="isPortraitSm ? 65 : 80" dark flat fixed>
+        <v-app-bar app color="primary" :height="appBarHeight" dark flat fixed>
             <v-app-bar-nav-icon @click="drawer = true" color="white" class="ma-2">
                 <v-img :src="publicPath + 'assets/MainMenu.png'" width="30" height="30" contain/>
             </v-app-bar-nav-icon>
-            <v-img :src="publicPath + 'assets/Logo.png'" width="50" height="50" contain class="my-4" v-if="!isPortraitSm" />
-            <v-tabs centered slider-color="accent" v-if="isPortraitSm">
+            <router-link to="/" v-if="!isLandscapeSm || isPortraitXs" class="mx-auto"><v-img :src="publicPath + 'assets/Logo.png'" :width="logoHeight" :height="logoHeight" contain class="my-4"/></router-link>
+            <v-tabs centered slider-color="accent" v-if="isLandscapeSm && !isPortraitXs">
                     <v-tab to="/">Dashboard</v-tab>
                     <v-tab to="/rooms">Räume</v-tab>
                     <v-tab to="/categories">Kategorien</v-tab>
@@ -14,7 +14,7 @@
                 <v-icon>fas fa-sliders-h</v-icon>
             </v-btn>
 
-            <template v-slot:extension v-if="!isPortraitSm">
+            <template v-slot:extension v-if="!isLandscapeSm && !isPortraitXs">
                 <v-tabs centered slider-color="accent">
                     <v-tab to="/">Dashboard</v-tab>
                     <v-tab to="/rooms">Räume</v-tab>
@@ -68,8 +68,21 @@ export default {
     }),
     computed: {
         ...mapGetters(['config']),
-        isPortraitSm() {
+        isLandscapeSm() {
             return this.$vuetify.breakpoint.mdAndDown && this.$vuetify.breakpoint.width > this.$vuetify.breakpoint.height;
+        },
+        isPortraitXs() {
+            console.log('xs', this.$vuetify.breakpoint.smAndDown && this.$vuetify.breakpoint.width < this.$vuetify.breakpoint.height && this.$vuetify.breakpoint.width < 400 && this.$vuetify.breakpoint.height < 600)
+            return this.$vuetify.breakpoint.smAndDown && this.$vuetify.breakpoint.width < 420 && this.$vuetify.breakpoint.height < 600;
+        },
+        appBarHeight() {
+            if (this.isPortraitXs) return 55;
+            if (this.isLandscapeSm) return 65;
+            return 80;
+        },
+        logoHeight() {
+            if (this.isPortraitXs) return 40;
+            return 50;
         }
     },
     sockets: {
@@ -288,13 +301,13 @@ body {
 }
 
 @media (max-width: 1024px) and (orientation: landscape) {
-.prominent-app-bar {
-    display: none !important;
-}
+    .prominent-app-bar {
+        display: none !important;
+    }
 
-.dense-app-bar {
-    display: block !important;
+    .dense-app-bar {
+        display: block !important;
+    }
 }
- }
 
 </style>

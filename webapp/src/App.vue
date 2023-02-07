@@ -72,7 +72,6 @@ export default {
             return this.$vuetify.breakpoint.mdAndDown && this.$vuetify.breakpoint.width > this.$vuetify.breakpoint.height;
         },
         isPortraitXs() {
-            console.log('xs', this.$vuetify.breakpoint.smAndDown && this.$vuetify.breakpoint.width < this.$vuetify.breakpoint.height && this.$vuetify.breakpoint.width < 400 && this.$vuetify.breakpoint.height < 600)
             return this.$vuetify.breakpoint.smAndDown && this.$vuetify.breakpoint.width < 420 && this.$vuetify.breakpoint.height < 600;
         },
         appBarHeight() {

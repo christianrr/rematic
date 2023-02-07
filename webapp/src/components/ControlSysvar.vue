@@ -12,6 +12,8 @@
             @click.stop="handled"
         ></v-switch>
 
+        <PinInput :code="pin" :icon="control.icon" @confirmed="toggleValue" v-else-if="controlType === 'pin'" />
+
         <v-menu :close-on-click="true" v-else-if="controlType === 'menu'">
             <template v-slot:activator="{ on, attrs }">
                 <v-btn fab depressed width="35" height="35" color="grey lighten-3" v-bind="attrs" v-on="on">
@@ -57,8 +59,10 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import PinInput from './PinInput.vue';
 
 export default {
+    components: { PinInput },
     name: 'ControlSysvar',
     props: {
         control: Object,
@@ -72,6 +76,7 @@ export default {
         },
         controlType() {
             if (this.control.param === 'TEXT') return 'text';
+            if (this.sysvar && this.sysvar.valueType == 'boolean' && this.control.param.startsWith('PIN')) return 'pin';
             if (this.sysvar && this.sysvar.valueType == 'boolean') return 'switch';
             if (
                 this.sysvar &&
@@ -104,6 +109,9 @@ export default {
                 selectOptions.push({ id: i, name: e });
             });
             return selectOptions;
+        },
+        pin() {
+            return this.control.param?.replace("PIN|", "");
         }
     },
     data: () => ({}),
@@ -116,6 +124,10 @@ export default {
         },
         menuClicked(index) {
             this.sysvar.value = index;
+            this.valueChanged();
+        },
+        toggleValue() {
+            this.sysvar.value = !this.sysvar.value;
             this.valueChanged();
         },
         valueChanged() {

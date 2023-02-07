@@ -1,15 +1,27 @@
 <template>
     <div>
-        <v-btn fab depressed width="35" height="35" color="grey lighten-3" @click.stop="buttonClicked">
+        <v-btn
+            fab
+            depressed
+            width="35"
+            height="35"
+            color="grey lighten-3"
+            @click.stop="buttonClicked"
+            v-if="controlType === 'program'"
+        >
             <v-icon color="grey darken-1">{{ control.icon }}</v-icon></v-btn
         >
+
+        <PinInput :code="pin" :icon="control.icon" @confirmed="buttonClicked" v-else />
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import PinInput from './PinInput.vue';
 
 export default {
+    components: { PinInput },
     name: 'ControlProgram',
     props: {
         control: Object,
@@ -17,9 +29,16 @@ export default {
     },
     computed: {
         ...mapGetters([]),
+        controlType() {
+            if (this.control.param.startsWith('PIN')) return 'pin';
+            return 'program';
+        },
         program() {
             if (!this.control || !this.control.sourceKey) return;
             return { name: this.control.sourceKey };
+        },
+        pin() {
+            return this.control.param?.replace('PIN|', '');
         }
     },
     data: () => ({}),
@@ -33,4 +52,5 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

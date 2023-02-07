@@ -141,14 +141,14 @@ const mutations = {
         state.sysvars = sysvar;
     },
     [types.SET_EVENT](state, event) {
-         console.log('event ' + event.datapointName + ' updated');
+        //console.log('event ' + event.datapointName + ' updated');
         var values = state.values;
         var existing = values[event.datapointName];
         if (existing && existing.locked) return;
         Vue.set(state.values, event.datapointName, event);
     },
     [types.SET_SYSVAR](state, sysvar) {
-        // console.log('sysvar ' + sysvar.name + ' updated: ' + JSON.stringify(sysvar));
+        //console.log('sysvar ' + sysvar.name + ' updated: ' + JSON.stringify(sysvar));
         Vue.set(state.sysvars, sysvar.name, sysvar);
     },
     [types.SET_PROGRAM](state, program) {
